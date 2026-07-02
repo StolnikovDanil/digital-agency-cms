@@ -33,7 +33,7 @@ export async function getPublishedPosts(
 
 export async function getPostBySlug(req: Request, res: Response, next: NextFunction) {
     try {
-        const { slug } = req.params;
+        const slug = String(req.params.slug);
 
         const post = await prisma.post.findUnique({
             where: { slug },
@@ -51,7 +51,7 @@ export async function getPostBySlug(req: Request, res: Response, next: NextFunct
 
 export async function getPostById(req: Request, res: Response, next: NextFunction) {
     try {
-        const { id } = req.params;
+        const id = String(req.params.id);
 
         const post = await prisma.post.findUnique({
             where: { id },
@@ -90,7 +90,7 @@ export async function createPost(req: Request, res: Response, next: NextFunction
 
 export async function updatePost(req: Request, res: Response, next: NextFunction) {
     try {
-        const { id } = req.params;
+        const id = String(req.params.id);
         const { title, slug, excerpt, content, coverImage, publishedAt } = req.body;
 
         const post = await prisma.post.update({
@@ -115,7 +115,7 @@ export async function updatePost(req: Request, res: Response, next: NextFunction
 
 export async function deletePost(req: Request, res: Response, next: NextFunction) {
     try {
-        const { id } = req.params;
+        const id = String(req.params.id);
 
         await prisma.post.delete({
             where: { id },
