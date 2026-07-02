@@ -1,12 +1,9 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { useRouter } from "next/navigation";
 import { apiFetch, ApiError } from "@/src/lib/api";
 
 export default function AdminLoginPage() {
-    const router = useRouter();
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,8 +20,7 @@ export default function AdminLoginPage() {
                 body: JSON.stringify({ email, password }),
             });
 
-            router.push("/admin");
-            router.refresh();
+            window.location.href = "/admin";
         } catch (err) {
             if (err instanceof ApiError && err.status === 401) {
                 setError("Неверный email или пароль.");
@@ -32,7 +28,6 @@ export default function AdminLoginPage() {
                 setError("Не удалось войти. Попробуйте снова.");
             }
             console.error(err);
-        } finally {
             setIsSubmitting(false);
         }
     }
