@@ -1,66 +1,137 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import {
+    contactSchema,
+    ContactFormData,
+} from "@/schemas/contact.schema";
 
 export default function ContactForm() {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("");
-    const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
+    const [success, setSuccess] = useState(false);
+    const [serverError, setServerError] = useState("");
 
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
-        setStatus("submitting");
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: {
+            errors,
+            isSubmitting,
+        },
+    } = useForm<ContactFormData>({
+        resolver: zodResolver(contactSchema),
+        defaultValues: {
+            name: "",
+            email: "",
+            message: "",
+        },
+    });
 
-        // TODO: заменить на реальный запрос к API, когда появится /contact на бэке
-        setTimeout(() => {
-            setStatus("success");
-            setName("");
-            setEmail("");
-            setMessage("");
-        }, 500);
+    const onSubmit = async (data: ContactFormData) => {
+        setSuccess(false);
+        setServerError("");
+
+        try {
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    result.message || "Ошибка отправки"
+                );
+            }
+
+            setSuccess(true);
+            reset();
+        } catch (error) {
+            setServerError(
+                error instanceof Error
+                    ? error.message
+                    : "Неизвестная ошибка"
+            );
+        }
     };
 
-    if (status === "success") {
-        return (
-            <p className="mt-8 rounded-lg bg-green-50 p-4 text-center text-green-700">
-                Спасибо! Сообщение отправлено.
-            </p>
-        );
-    }
-
     return (
-        <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-4">
-            <input
-                type="text"
-                placeholder="Имя"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="rounded-lg border border-gray-300 px-4 py-2 focus:border-gray-900 focus:outline-none"
-            />
-            <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="rounded-lg border border-gray-300 px-4 py-2 focus:border-gray-900 focus:outline-none"
-            />
-            <textarea
-                placeholder="Сообщение"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                required
-                rows={4}
-                className="rounded-lg border border-gray-300 px-4 py-2 focus:border-gray-900 focus:outline-none"
-            />
+        <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="mt-8 flex flex-col gap-4"
+        >
+            <div>
+                <input
+                    type="text"
+                    placeholder="Имя"
+                    {...register("name")}
+                    className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-gray-900 focus:outline-none"
+                />
+
+                {errors.name && (
+                    <p className="mt-1 text-sm text-red-500">
+                        {errors.name.message}
+                    </p>
+                )}
+            </div>
+
+            <div>
+                <input
+                    type="email"
+                    placeholder="Email"
+                    {...register("email")}
+                    className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-gray-900 focus:outline-none"
+                />
+
+                {errors.email && (
+                    <p className="mt-1 text-sm text-red-500">
+                        {errors.email.message}
+                    </p>
+                )}
+            </div>
+
+            <div>
+                <textarea
+                    rows={5}
+                    placeholder="Сообщение"
+                    {...register("message")}
+                    className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-gray-900 focus:outline-none"
+                />
+
+                {errors.message && (
+                    <p className="mt-1 text-sm text-red-500">
+                        {errors.message.message}
+                    </p>
+                )}
+            </div>
+
+            {serverError && (
+                <p className="text-sm text-red-500">
+                    {serverError}
+                </p>
+            )}
+
+            {success && (
+                <p className="text-sm text-green-600">
+                    Сообщение успешно отправлено
+                </p>
+            )}
+
             <button
                 type="submit"
-                disabled={status === "submitting"}
+                disabled={isSubmitting}
                 className="rounded-lg bg-gray-900 px-6 py-3 text-white transition hover:bg-gray-700 disabled:opacity-50"
             >
-                {status === "submitting" ? "Отправка..." : "Отправить"}
+                {isSubmitting
+                    ? "Отправка..."
+                    : "Отправить"}
             </button>
         </form>
     );
