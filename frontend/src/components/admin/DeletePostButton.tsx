@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { apiFetch, ApiError } from "@/src/lib/api";
+import { apiFetch, ApiError } from "@/lib/api";
 
 interface DeletePostButtonProps {
     postId: string;

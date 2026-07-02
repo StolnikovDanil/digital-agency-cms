@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
-import { apiFetch } from "@/src/lib/api";
-import { Post } from "@/src/types/post";
+import { apiFetch } from "@/lib/api";
+import { Post } from "@/types/post";
 
 export const revalidate = 3600;
 

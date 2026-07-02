@@ -2,8 +2,8 @@
 
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { apiFetch, ApiError } from "@/src/lib/api";
-import { Post } from "@/src/types/post";
+import { apiFetch, ApiError } from "@/lib/api";
+import { Post } from "@/types/post";
 
 interface FormErrors {
     [key: string]: string;

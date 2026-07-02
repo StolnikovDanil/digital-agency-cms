@@ -3,8 +3,8 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { apiFetch, ApiError } from "@/src/lib/api";
-import { generateSlug } from "@/src/lib/slug";
+import { apiFetch, ApiError } from "@/lib/api";
+import { generateSlug } from "@/lib/slug";
 
 interface FormErrors {
     [key: string]: string;

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Metadata } from "next";
-import { serverApiFetch } from "@/src/lib/api.server";
-import { Post } from "@/src/types/post";
-import DeletePostButton from "@/src/components/admin/DeletePostButton";
+import { serverApiFetch } from "@/lib/api.server";
+import { Post } from "@/types/post";
+import DeletePostButton from "@/components/admin/DeletePostButton";
 
 export const metadata: Metadata = {
     title: "Админ-панель | Digital Agency",

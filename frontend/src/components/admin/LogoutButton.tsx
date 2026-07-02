@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { apiFetch } from "@/src/lib/api";
+import { apiFetch } from "@/lib/api";
 
 export default function LogoutButton() {
     const router = useRouter();

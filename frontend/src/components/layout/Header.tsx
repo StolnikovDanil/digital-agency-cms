@@ -7,7 +7,7 @@ import { useState } from "react";
 const navLinks = [
     { href: "/", label: "Главная" },
     { href: "/blog", label: "Блог" },
-    { href: "/#contact", label: "Контакты" },
+    { href: "/contact", label: "Контакты" },
 ];
 
 export default function Header() {
@@ -15,7 +15,7 @@ export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
-        <header className="border-b border-gray-200">
+        <header className="fixed top-0 left-0 z-50 w-full border-b border-gray-200 bg-white/80 backdrop-blur-md">
             <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
                 <Link href="/" className="text-lg font-bold text-gray-900">
                     Agency
@@ -50,7 +50,7 @@ export default function Header() {
             </div>
 
             {isMenuOpen && (
-                <nav className="flex flex-col gap-4 border-t border-gray-200 px-6 py-4 text-sm font-medium sm:hidden">
+                <nav className="flex flex-col gap-4 border-t border-gray-200 bg-white px-6 py-4 text-sm font-medium sm:hidden">
                     {navLinks.map((link) => {
                         const isActive = pathname === link.href;
                         return (

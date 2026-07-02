@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
-import { serverApiFetch, ApiError } from "@/src/lib/api.server";
-import { Post } from "@/src/types/post";
-import EditPostForm from "@/src/components/admin/EditPostForm";
+import { serverApiFetch, ApiError } from "@/lib/api.server";
+import { Post } from "@/types/post";
+import EditPostForm from "@/components/admin/EditPostForm";
 
 export const metadata: Metadata = {
     title: "Редактирование статьи | Digital Agency",

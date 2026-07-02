@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { apiFetch, ApiError } from "@/src/lib/api";
+import { apiFetch, ApiError } from "@/lib/api";
 
 export default function AdminLoginPage() {
     const [email, setEmail] = useState("");

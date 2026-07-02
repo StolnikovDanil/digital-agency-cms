@@ -2,8 +2,8 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { apiFetch } from "@/src/lib/api";
-import { Post } from "@/src/types/post";
+import { apiFetch } from "@/lib/api";
+import { Post } from "@/types/post";
 
 export const revalidate = 60;
 

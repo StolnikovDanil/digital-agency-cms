@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ApiError } from "@/src/lib/api";
+import { ApiError } from "@/lib/api";
 
 export default function AdminError({
                                        error,
