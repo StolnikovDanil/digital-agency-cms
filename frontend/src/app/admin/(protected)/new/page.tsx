@@ -4,6 +4,7 @@ import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { apiFetch, ApiError } from "@/src/lib/api";
+import { generateSlug } from "@/src/lib/slug";
 
 interface FormErrors {
     [key: string]: string;
@@ -22,14 +23,6 @@ export default function NewPostPage() {
     const [errors, setErrors] = useState<FormErrors>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [generalError, setGeneralError] = useState<string | null>(null);
-
-    function generateSlug(value: string) {
-        return value
-            .toLowerCase()
-            .trim()
-            .replace(/[^a-z0-9\s-]/g, "")
-            .replace(/\s+/g, "-");
-    }
 
     function handleTitleChange(value: string) {
         setTitle(value);
