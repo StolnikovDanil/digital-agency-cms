@@ -5,9 +5,9 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/blog", label: "Blog" },
-    { href: "/#contact", label: "Contact" },
+    { href: "/", label: "Главная" },
+    { href: "/blog", label: "Блог" },
+    { href: "/#contact", label: "Контакты" },
 ];
 
 export default function Header() {
