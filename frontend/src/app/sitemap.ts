@@ -5,8 +5,7 @@ import { Post } from "@/src/types/post";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-    const posts = await apiFetch<Post[]>("/posts");
-    const publishedPosts = posts.filter((post) => post.publishedAt !== null);
+    const publishedPosts = await apiFetch<Post[]>("/posts/published");
 
     const postUrls: MetadataRoute.Sitemap = publishedPosts.map((post) => ({
         url: `${baseUrl}/blog/${post.slug}`,
