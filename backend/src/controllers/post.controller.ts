@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../lib/prisma.js";
 import { AppError } from "../utils/AppError.js";
+import { triggerRevalidate } from "../lib/revalidate.js";
 
 export async function getPosts(_req: Request, res: Response, next: NextFunction) {
     try {
@@ -83,6 +84,10 @@ export async function createPost(req: Request, res: Response, next: NextFunction
         });
 
         res.status(201).json(post);
+
+        if (post.publishedAt) {
+            void triggerRevalidate(post.slug);
+        }
     } catch (error) {
         next(error);
     }
@@ -108,6 +113,10 @@ export async function updatePost(req: Request, res: Response, next: NextFunction
         });
 
         res.status(200).json(post);
+
+        // Ревалидируем /blog в любом случае: статью могли и опубликовать,
+        // и снять с публикации (тогда её нужно убрать со страницы).
+        void triggerRevalidate(post.slug);
     } catch (error) {
         next(error);
     }
@@ -117,11 +126,13 @@ export async function deletePost(req: Request, res: Response, next: NextFunction
     try {
         const id = String(req.params.id);
 
-        await prisma.post.delete({
+        const post = await prisma.post.delete({
             where: { id },
         });
 
         res.status(204).send();
+
+        void triggerRevalidate(post.slug);
     } catch (error) {
         next(error);
     }
