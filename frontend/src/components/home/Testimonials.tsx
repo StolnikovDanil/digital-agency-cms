@@ -3,27 +3,7 @@
 import { motion } from "framer-motion";
 import { Reveal, staggerContainer, staggerItem } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/motion/TiltCard";
-
-const testimonials = [
-    {
-        name: "Анна Коваль",
-        role: "CEO, ShopWave",
-        quote:
-            "Команда быстро разобралась в задаче и предложила решение, которое сэкономило нам месяцы разработки.",
-    },
-    {
-        name: "Игорь Мельник",
-        role: "Product Manager, FinTrack",
-        quote:
-            "Приятно удивил уровень коммуникации — всегда были на связи и объясняли технические решения простым языком.",
-    },
-    {
-        name: "Дарья Лисенко",
-        role: "Founder, TeamSync",
-        quote:
-            "Получили не просто рабочий продукт, а понятную архитектуру, с которой легко работать дальше самим.",
-    },
-];
+import {constantsConfig} from "@/constants/constantsConfig";
 
 export default function Testimonials() {
     return (
@@ -47,7 +27,7 @@ export default function Testimonials() {
                     viewport={{ once: true, amount: 0.3 }}
                     variants={staggerContainer}
                 >
-                    {testimonials.map((item) => (
+                    {constantsConfig.testimonials.map((item) => (
                         <motion.div key={item.name} variants={staggerItem}>
                             <TiltCard
                                 maxTilt={5}

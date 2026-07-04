@@ -3,27 +3,8 @@
 import { motion } from "framer-motion";
 import { Reveal, staggerContainer, staggerItem } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/motion/TiltCard";
+import {constantsConfig} from "@/constants/constantsConfig";
 
-const projects = [
-    {
-        title: "FinTrack",
-        description:
-            "Дашборд для управления финансами с аналитикой в реальном времени и ролевым доступом.",
-        tags: ["React", "TypeScript", "PostgreSQL"],
-    },
-    {
-        title: "ShopWave",
-        description:
-            "Интернет-магазин с корзиной, оплатой и SSR-каталогом, оптимизированным под SEO.",
-        tags: ["Next.js", "Tailwind", "Stripe"],
-    },
-    {
-        title: "TeamSync",
-        description:
-            "Внутренний инструмент для планирования спринтов и трекинга задач команды.",
-        tags: ["Express", "Prisma", "WebSocket"],
-    },
-];
 
 export default function Portfolio() {
     return (
@@ -47,7 +28,7 @@ export default function Portfolio() {
                     viewport={{ once: true, amount: 0.3 }}
                     variants={staggerContainer}
                 >
-                    {projects.map((project) => (
+                    {constantsConfig.projects.map((project) => (
                         <motion.div key={project.title} variants={staggerItem}>
                             <TiltCard className="rounded-xl border border-gray-200 p-4 text-left transition-colors hover:border-gray-900 sm:p-6">
                                 <h3 className="text-base font-semibold text-gray-900 sm:text-lg">

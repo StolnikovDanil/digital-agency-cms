@@ -1,12 +1,10 @@
 "use client";
 
-import { RefObject } from "react";
+import {CTAProps} from "@/types/home";
 import { Reveal } from "@/components/motion/Reveal";
 import { Parallax } from "@/components/motion/Parallax";
 
-interface CTAProps {
-    containerRef: RefObject<HTMLDivElement | null>;
-}
+
 
 export default function CTA({ containerRef }: CTAProps) {
     return (

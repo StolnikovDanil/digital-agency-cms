@@ -1,31 +1,12 @@
 "use client";
 
-import { RefObject } from "react";
+import {AboutProps} from "@/types/home";
 import { motion } from "framer-motion";
 import { Reveal, staggerContainer, staggerItem } from "@/components/motion/Reveal";
 import { Parallax } from "@/components/motion/Parallax";
+import {constantsConfig} from "@/constants/constantsConfig";
 
-const advantages = [
-    {
-        title: "5+ лет на рынке",
-        description:
-            "Работаем со стартапами и компаниями, знаем, как быстро довести продукт до релиза.",
-    },
-    {
-        title: "Прозрачный процесс",
-        description:
-            "Никаких скрытых этапов — вы видите прогресс на каждом шаге и понимаете, за что платите.",
-    },
-    {
-        title: "Современный стек",
-        description:
-            "Используем актуальные технологии, которые легко поддерживать и масштабировать в будущем.",
-    },
-];
 
-interface AboutProps {
-    containerRef: RefObject<HTMLDivElement | null>;
-}
 
 export default function About({ containerRef }: AboutProps) {
     return (
@@ -53,7 +34,7 @@ export default function About({ containerRef }: AboutProps) {
                     viewport={{ once: true, amount: 0.3 }}
                     variants={staggerContainer}
                 >
-                    {advantages.map((item) => (
+                    {constantsConfig.advantages.map((item) => (
                         <motion.div key={item.title} variants={staggerItem} className="text-left">
                             <h3 className="text-base font-semibold text-gray-900 sm:text-lg">
                                 {item.title}

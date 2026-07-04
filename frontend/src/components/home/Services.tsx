@@ -3,29 +3,8 @@
 import { motion } from "framer-motion";
 import { Reveal, staggerContainer, staggerItem } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/motion/TiltCard";
+import {constantsConfig} from "@/constants/constantsConfig";
 
-const services = [
-    {
-        title: "Веб-разработка",
-        description:
-            "Быстрые, надёжные сайты и веб-приложения на современном стеке — от лендинга до сложных SaaS-платформ.",
-    },
-    {
-        title: "UI/UX дизайн",
-        description:
-            "Продуманные интерфейсы, которые решают задачи бизнеса и остаются понятными пользователю с первого клика.",
-    },
-    {
-        title: "SEO и производительность",
-        description:
-            "Оптимизация под поисковики и скорость загрузки — чтобы продукт находили и не закрывали на первой секунде.",
-    },
-    {
-        title: "Поддержка и развитие",
-        description:
-            "Сопровождаем проект после запуска: правим баги, добавляем фичи, следим за стабильностью.",
-    },
-];
 
 export default function Services() {
     return (
@@ -49,7 +28,7 @@ export default function Services() {
                     viewport={{ once: true, amount: 0.3 }}
                     variants={staggerContainer}
                 >
-                    {services.map((service) => (
+                    {constantsConfig.services.map((service) => (
                         <motion.div key={service.title} variants={staggerItem}>
                             <TiltCard className="rounded-xl border border-gray-200 p-4 text-left transition-colors hover:border-gray-900 sm:p-6">
                                 <h3 className="text-base font-semibold text-gray-900 sm:text-lg">
