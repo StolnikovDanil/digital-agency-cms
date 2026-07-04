@@ -1,14 +1,9 @@
+
 const API_URL =
-    typeof window === "undefined"
-        ? process.env.BACKEND_URL
-        : process.env.NEXT_PUBLIC_API_URL;
+    typeof window === "undefined" ? process.env.BACKEND_URL : "/api";
 
 if (!API_URL) {
-    throw new Error(
-        typeof window === "undefined"
-            ? "BACKEND_URL is not defined"
-            : "NEXT_PUBLIC_API_URL is not defined"
-    );
+    throw new Error("BACKEND_URL is not defined");
 }
 
 interface ApiFieldError {
@@ -64,5 +59,10 @@ export async function apiFetch<T>(
         );
     }
 
-    return response.json();
+    if (response.status === 204) {
+        return undefined as T;
+    }
+
+    const text = await response.text();
+    return text ? (JSON.parse(text) as T) : (undefined as T);
 }
