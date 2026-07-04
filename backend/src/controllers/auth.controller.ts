@@ -15,7 +15,7 @@ if (!JWT_SECRET || !ADMIN_EMAIL || !ADMIN_PASSWORD_HASH) {
 
 const COOKIE_NAME = "admin_token";
 const TOKEN_EXPIRY = "7d";
-const COOKIE_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7 дней
+const COOKIE_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; 
 
 export async function login(req: Request, res: Response, next: NextFunction) {
     try {

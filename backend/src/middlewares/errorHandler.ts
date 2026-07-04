@@ -12,14 +12,17 @@ export function errorHandler(
         return;
     }
 
-    const prismaError = err as { code?: string };
+    const prismaError =
+        typeof err === "object" && err !== null
+            ? (err as { code?: string })
+            : null;
 
-    if (prismaError.code === "P2002") {
+    if (prismaError?.code === "P2002") {
         res.status(409).json({ message: "Resource with this unique field already exists" });
         return;
     }
 
-    if (prismaError.code === "P2025") {
+    if (prismaError?.code === "P2025") {
         res.status(404).json({ message: "Resource not found" });
         return;
     }

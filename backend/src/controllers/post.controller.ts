@@ -113,9 +113,7 @@ export async function updatePost(req: Request, res: Response, next: NextFunction
         });
 
         res.status(200).json(post);
-
-        // Ревалидируем /blog в любом случае: статью могли и опубликовать,
-        // и снять с публикации (тогда её нужно убрать со страницы).
+        
         void triggerRevalidate(post.slug);
     } catch (error) {
         next(error);
