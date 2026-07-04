@@ -1,4 +1,5 @@
 import express from "express";
+import helmet from "helmet";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import postRoutes from "./routes/post.routes.js";
@@ -9,6 +10,7 @@ const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
 
 export const app = express();
 
+app.use(helmet());
 app.use(
     cors({
         origin: FRONTEND_URL,
