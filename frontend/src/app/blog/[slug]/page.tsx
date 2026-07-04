@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { apiFetch } from "@/lib/api";
+import {ApiError, apiFetch} from "@/lib/api";
 import { Post } from "@/types/post";
 
 export const revalidate = 60;
@@ -14,8 +14,11 @@ interface PageProps {
 async function getPost(slug: string): Promise<Post | null> {
     try {
         return await apiFetch<Post>(`/posts/${slug}`);
-    } catch {
-        return null;
+    } catch (error) {
+        if (error instanceof ApiError && error.status === 404) {
+            return null;
+        }
+        throw error;
     }
 }
 
