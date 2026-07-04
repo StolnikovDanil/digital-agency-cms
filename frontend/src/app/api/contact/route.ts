@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { ZodError } from "zod";
 import { contactSchema } from "@/schemas/contact.schema";
 
 export async function POST(req: NextRequest) {
@@ -32,23 +33,35 @@ ${data.message}
         );
 
         if (!response.ok) {
-            throw new Error("Telegram API error");
+            
+            const errorText = await response.text();
+            throw new Error(`Telegram API error ${response.status}: ${errorText}`);
         }
 
         return NextResponse.json({
             success: true,
         });
     } catch (error) {
-        console.error(error);
+
+        if (error instanceof ZodError) {
+            console.warn("[contact] Невалидные данные:", error.issues);
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: "Проверьте правильность заполнения полей.",
+                },
+                { status: 400 }
+            );
+        }
+
+        console.error("[contact] Не удалось отправить сообщение:", error);
 
         return NextResponse.json(
             {
                 success: false,
-                message: "Ошибка отправки",
+                message: "Не удалось отправить сообщение. Попробуйте позже.",
             },
-            {
-                status: 400,
-            }
+            { status: 500 }
         );
     }
 }
