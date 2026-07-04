@@ -78,7 +78,7 @@ export function usePostForm({ mode, post }: UsePostFormOptions) {
             slug: values.slug,
             excerpt: values.excerpt,
             content: values.content,
-            coverImage: values.coverImage || undefined,
+            coverImage: values.coverImage.trim() === "" ? null : values.coverImage,
             publishedAt: values.isPublished
                 ? post?.publishedAt ?? new Date().toISOString()
                 : null,
