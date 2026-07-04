@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
 import { serverApiFetch, ApiError } from "@/lib/api.server";
@@ -18,6 +18,9 @@ async function getPostById(id: string): Promise<Post | null> {
     try {
         return await serverApiFetch<Post>(`/posts/id/${id}`);
     } catch (error) {
+        if (error instanceof ApiError && error.status === 401) {
+            redirect("/admin/login");
+        }
         if (error instanceof ApiError && error.status === 404) {
             return null;
         }

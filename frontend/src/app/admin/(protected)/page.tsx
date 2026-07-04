@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Metadata } from "next";
-import { serverApiFetch } from "@/lib/api.server";
+import { redirect } from "next/navigation";
+import { serverApiFetch, ApiError } from "@/lib/api.server";
 import { Post } from "@/types/post";
 import DeletePostButton from "@/components/admin/DeletePostButton";
 
@@ -10,7 +11,14 @@ export const metadata: Metadata = {
 };
 
 async function getAllPosts(): Promise<Post[]> {
-    return serverApiFetch<Post[]>("/posts");
+    try {
+        return await serverApiFetch<Post[]>("/posts");
+    } catch (error) {
+        if (error instanceof ApiError && error.status === 401) {
+            redirect("/admin/login");
+        }
+        throw error;
+    }
 }
 
 export default async function AdminPage() {
