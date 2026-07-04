@@ -39,9 +39,38 @@ export function useSnapScroll(sectionCount: number) {
         const container = containerRef.current;
         if (!container) return;
 
+        // Небольшой допуск на субпиксельные округления scrollHeight/clientHeight
+        // (особенно заметно при дробном масштабировании и в мобильной эмуляции) —
+        // без него секция может ошибочно считаться "недокрученной" навсегда.
+        const SCROLL_EDGE_THRESHOLD = 4;
+
         const handleWheel = (event: WheelEvent) => {
+            if (isAnimatingRef.current) {
+                event.preventDefault();
+                return;
+            }
+
+            const activeSection = container.children[
+                indexRef.current
+                ] as HTMLElement | undefined;
+
+            if (activeSection) {
+                const canScrollDown =
+                    activeSection.scrollHeight -
+                    activeSection.scrollTop -
+                    activeSection.clientHeight >
+                    SCROLL_EDGE_THRESHOLD;
+                const canScrollUp =
+                    activeSection.scrollTop > SCROLL_EDGE_THRESHOLD;
+
+                // Секция сама не докручена в эту сторону — отдаём событие
+                // браузеру, чтобы сработал её нативный overflow-y-auto,
+                // и не переключаем секции раньше времени.
+                if (event.deltaY > 0 && canScrollDown) return;
+                if (event.deltaY < 0 && canScrollUp) return;
+            }
+
             event.preventDefault();
-            if (isAnimatingRef.current) return;
 
             if (event.deltaY > 0) {
                 scrollToIndex(indexRef.current + 1);
